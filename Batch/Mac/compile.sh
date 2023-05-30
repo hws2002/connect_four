@@ -1,4 +1,4 @@
-root_dir="/Users/zhangjunqi/Documents/ConnectFour/"  #your path here
+root_dir="/Users/wooseokhan/Desktop/AI_intro/connect_four/Batch/Mac/"  #your path here
 for file in `ls "${root_dir}Sourcecode"`
 do
     cd "${root_dir}Sourcecode/${file}"
