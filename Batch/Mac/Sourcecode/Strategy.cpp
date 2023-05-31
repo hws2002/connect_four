@@ -52,20 +52,18 @@ extern "C" Point* getPoint(const int M, const int N, const int* top, const int* 
 	*/ 
 
 	// @TODO: create root node with status s0
-	Node* root = new Node(board,M,N,top,noX,noY,false);
+	NodePosi root = new Node(board,M,N,top,noX,noY,false);
 	while(1){// @TODO: end_time - start_time < 2.80s
 		//@TODO : selection
-		Node* v_l = root->tree_policy(); 		  
-		// get possible candidates
-		for (int i = N-1; i>=0; i--){
-			if (top[i] > 0){
-				// possible (x,y) = (top[i]-1,i)
-
-			}
-		}
+		NodePosi v_l = root->tree_policy();
+		int delta = v_l->rollout();
+		root->backup(delta);
 	}
 
-	// x = root->bestchild()->;
+	NodePosi best = root->bestchild();
+	x = best->get_x();
+	y = best->get_y();
+
 	/*
 		不要更改这段代码
 	*/
