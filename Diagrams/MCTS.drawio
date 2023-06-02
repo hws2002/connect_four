@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net" modified="2023-05-31T13:02:48.909Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="GsInZ05rmOHJ2gJUkOnn" version="21.3.5" type="device">
+  <diagram name="Page-1" id="Ofq2_z0BwT5NVl0dyco5">
+    <mxGraphModel dx="1509" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lHVGt66NACDTy8SVw9p7-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-1" target="lHVGt66NACDTy8SVw9p7-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-1" value="Start" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="60" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-2" target="lHVGt66NACDTy8SVw9p7-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-2" value="current = S0" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="150" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-6" value="NO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-4" target="lHVGt66NACDTy8SVw9p7-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-11" value="YES" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-4" target="lHVGt66NACDTy8SVw9p7-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-4" value="is current a&amp;nbsp;&lt;br&gt;leaf node?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="195" y="230" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-5" target="lHVGt66NACDTy8SVw9p7-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="81" y="410" />
+              <mxPoint x="81" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-5" value="current &amp;lt;= child node of current that maximises UCB1(S_i)" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="177.5" y="380" width="175" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-13" value="YES&lt;br&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-10" target="lHVGt66NACDTy8SVw9p7-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-15" value="NO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-10" target="lHVGt66NACDTy8SVw9p7-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-10" value="is the n_i value for current = 0?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="415" y="230" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-12" value="ROLLOUT" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="425" y="150" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-14" target="lHVGt66NACDTy8SVw9p7-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-14" value="Add a new state to the tree" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="407.5" y="380" width="155" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lHVGt66NACDTy8SVw9p7-18" target="lHVGt66NACDTy8SVw9p7-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-18" value="current &amp;lt;= First new child node" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="407.5" y="530" width="155" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="lHVGt66NACDTy8SVw9p7-20" value="ROLLOUT" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="407.5" y="680" width="155" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
