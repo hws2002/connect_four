@@ -2,8 +2,9 @@
 
 # **Pre requisite**
 ## Judge.h, Judge.cpp
-userWin & computerWin : 判断谁赢  
-isTie 必须在调用userWin和computerWin之后
+userWin & machineWin : 判断谁赢  
+isTie 必须在调用userWin和computerWin之后  
+注 ： userWin和machineWin检查当前落子是否决胜！！ -> 以后代码的设计有一定影响。
 
 ## **Point.h**
 棋盘中左上角为坐标原点.纵向为x坐标轴,横向为y坐标轴
@@ -31,13 +32,14 @@ isTie 必须在调用userWin和computerWin之后
 ### **1-2. 代码实现 
 #### **1-2-1. tree_policy**
 ___
+
 `is_expandable`接口函数判断该节点能否扩展。  
 `is_terminal`接口函数判断该节点是否为终止节点。
 
 返回的情况只有两种
 1. `v`是terminal state
 2. `v`是刚刚expanded
-在下面(Rollout strategy)会看到两种情况处理的不一样。
+值得提的是通过第二种情况返回的v也可能是terminal_state.
 
 #### **1-2-2.bestchild**
 ___ 
@@ -74,15 +76,21 @@ ___
 下面为上述三种default policy 的代码实现。
 ### **3-2. 代码实现**
 首先，rollout函数返回delta值，是该simulation的结果。由于connect4 可以出现平局的情况，对`result`做了一些调整，如果`simulation`比赛获胜$R_k$=1，平局则0，输则-1。  
-调用该函数(`rollout()`)的节点可分 terminal 和 non-terminal 两种。  
-其中 terminal state 的节点不用做simulation，直接判断谁输谁赢能决定delta值。  
-但另外一种情况则需要simulation下面为不同simulation策略的解释。  
+`rollout`一直进行到出现terminal state为止。  
+定义另外一个棋盘`_board`，专为这次的rollout。
+
+
+但有的时候从`tree_policy`选出来的节点本身已经是terminal state，这时候对同一个棋盘进行两次决胜行为，引起资源的浪费。
+
 #### **3-2-1. rollout(random)**
+DEFAULT_POLICY = 1
+随机生成一个节点。
 
 #### **3-2-2. rollout(middle)**
+DEFAULT_POLICY = 2
 
-#### **3-2-3. rollout(7)**
-
+#### **3-2-3. rollout(make-7)**
+DEFAULT_POLICY = 3
 ## **4. Back Propagation**
 ---
 节点的 `value` 为该节点`result`的平均值。即，  

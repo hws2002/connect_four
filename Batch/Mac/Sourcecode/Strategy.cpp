@@ -48,8 +48,7 @@ extern "C" Point* getPoint(const int M, const int N, const int* top, const int* 
 		该部分对参数使用没有限制，为了方便实现，你可以定义自己新的类、.h文件、.cpp文件
 	*/
 	// Monte Carlo Algorithm with UCB
-
-	NodePosi root = new Node(board,M,N,top,noX,noY,false);
+	NodePosi root = new Node(M,N,top,board,-1,-1,noX,noY,false,N);
 	while(duration < 2.50){// end_time - start_time < 2.80s
 		NodePosi v_l = root->tree_policy(); // select node 
 		int delta = v_l->rollout(); // simulate
