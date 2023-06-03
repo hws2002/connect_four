@@ -47,23 +47,19 @@ extern "C" Point* getPoint(const int M, const int N, const int* top, const int* 
 		根据你自己的策略来返回落子点,也就是根据你的策略完成对x,y的赋值
 		该部分对参数使用没有限制，为了方便实现，你可以定义自己新的类、.h文件、.cpp文件
 	*/
-    /*
-		Monte Carlo Algorithm with UBC
-	*/ 
+	// Monte Carlo Algorithm with UCB
 
-	// @TODO: create root node with status s0
 	NodePosi root = new Node(board,M,N,top,noX,noY,false);
-	while(1){// @TODO: end_time - start_time < 2.80s
-		//@TODO : selection
-		NodePosi v_l = root->tree_policy();
-		int delta = v_l->rollout();
-		root->backup(delta);
+	while(duration < 2.50){// end_time - start_time < 2.80s
+		NodePosi v_l = root->tree_policy(); // select node 
+		int delta = v_l->rollout(); // simulate
+		v_l->backup(delta); // back propagate
+		auto end_time = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration<double>(end_time - start_time).count();
 	}
 
-	NodePosi best = root->bestchild();
-	x = best->get_x();
-	y = best->get_y();
-
+	NodePosi best = root->bestchild(); // before time is up , get the best child node from root
+	x = best->get_x(); y = best->get_y();
 	/*
 		不要更改这段代码
 	*/
