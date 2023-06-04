@@ -8,3 +8,5 @@
 3. compete.sh: 对抗测试
 4. stat.py: 统计得分
 5. 运行顺序：compile.sh—>compete.sh—>stat.py
+
+* xattr -r -d com.apple.quarantine filename

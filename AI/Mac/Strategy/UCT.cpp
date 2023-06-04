@@ -1,117 +1,4 @@
-/********************************************************
-*	Node.h : Node类                                     *
-*	含有说                                               *
-*	hwooseok123@gmail.com                               *
-*	2023.5                                              *
-*********************************************************/
-
-#ifndef UCT_H_
-#define UCT_H_
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#include <cmath>
-#include <chrono>
-#include "Judge.h"
-
-auto start_time = std::chrono::high_resolution_clock::now();
-double duration = 0.0;
-
-// define deafult policy for simulation. Will be used in rollout
-#define DEFAULT_POLICY 1 // 1: random , 2 : middle, 3: make-7
-#define C (std::sqrt(2)) // define constant whatever you want 
-using NodePosi = Node*;
-struct Node{
-private:
-    /*------------MEMBERS--------*/
-    int ** board_;
-    double value;
-    int row;          // M
-    int column;       // N
-    int * top_;
-    int n;            // number of visiting
-    int r;            // result of the node
-    // int lastx,lasty;  // last position that opponent put (not used)
-    int x,y;
-    int no_x,no_y;    // banned position
-    NodePosi parent;
-    NodePosi * children;
-    int expandables;        // for expand, also can track how many times this node has been expanded
-    bool chance;
-    // int* expandable_nodes;  // for expand
-    /*----------GENERATORS & ------------*/
-public:
-    Node() {}
-    Node(const int M, const int N, int* top,int** board, const int current_x, const int current_y,const int noX, const int noY, bool chance_ = false, const int expandables_)
-    : value(0.0),row(M), column(N),chance(chance_),n(0),r(0),
-        x(current_x),y(current_y),no_x(noX),no_y(noY),expandables(expandables_),parent(nullptr)
-        {
-            // copy board
-            board_ = new int*[row];
-            for(int i=0; i<row;i++){
-                board_[i] = new int[column];
-                for(int j=0; j< column; j++){
-                    board_[i][j] = board[i][j];
-                }
-            }
-            // copy top
-            int zeroCounter = 0;
-            top_ = new int[column];
-            for (int i=0; i<column; i++){
-                top_[i] = top[i];
-                if(top_[i] == 0) zeroCounter++;
-            }
-            expandables = column - zeroCounter;
-
-            // initiate array 'children' with nullptrs
-            children = new NodePosi[column]();
-            // create expandable nodes list
-            // expandable_nodes = new int[N];
-
-            // prepare expandable_nodes list
-
-    };
-    ~Node(){
-        // delete board
-        for(int i=0; i < row; i++){
-            delete[] board_[i];
-        }
-        delete[] board_;
-        // delte children
-        for(int i=0; i < column; i++){
-            if(children[i]) delete children[i];
-        }
-        delete[] children;
-        // delete top
-        delete[] top_;
-        // delete[] expandable_nodes;
-    }
-
-    /*-----------INTERFACES-----------*/
-    bool is_expandable() {return expandables > 0;}
-    int get_expandables(){return expandables;}
-    void set_expandables(int num) {expandables = num;}
-    //------------ getters-------------
-    const int get_x() {return x;}
-    const int get_y() {return y;}
-    const int get_no_x() {return no_x;}
-    const int get_no_y() {return no_y;}
-    int get_n() {return n;}
-    int get_r() {return r;}
-    void set_value() {value = (double)r / (double)n ;}
-    double get_value() {return value;}
-    NodePosi get_parent() { return parent;}
-    bool get_chance() {return chance;}
-    void set_parent(NodePosi to_be_parent) {parent = to_be_parent;}
-
-    /*-----------FUNCTIONS------------*/
-    NodePosi tree_policy();
-    int rollout();
-    NodePosi expand();
-    void backup(int delta);
-    NodePosi bestchild(const double c=C);
-    bool is_terminal();
-    bool is_banned(const int p_x, const int p_y);
-};
-
+#include "UCT.h"
 
 bool Node::is_terminal(){
     if(this->get_parent() == nullptr) return false;
@@ -221,7 +108,7 @@ int Node::rollout(){
         switch(DEFAULT_POLICY){
             case 1: // random policy
                 if(nonZeroCount>0){
-                    int randomIndex = std::rand() & nonZeroCount;
+                    int randomIndex = rand() & nonZeroCount;
                     int currentIndex = 0;
                     for (int i=0; i<column; ++i){
                         if(_top[i] > 0){
@@ -279,12 +166,12 @@ NodePosi Node::expand(){
                     step = 2;
                     top_[i] -= step;
                     // get expandables
-                    children[i] = top_[i] == 0 ? new Node(row,column,top_,board_,top_[i]+1,i,no_x,no_y,chance_,get_expandables()-1) 
-                                                : new Node(row,column,top_,board_,top_[i]+1,i,no_x,no_y,chance_,get_expandables());
+                    children[i] = top_[i] == 0 ? new Node(row,column,top_,board_,top_[i]+1,i,no_x,no_y,get_expandables()-1,chance_) 
+                                                : new Node(row,column,top_,board_,top_[i]+1,i,no_x,no_y,get_expandables(),chance_);
                 } else {
                     top_[i] -= step;
-                    children[i] = top_[i] == 0 ? new Node(row,column,top_,board_,top_[i],i,no_x,no_y,chance_,get_expandables()-1) 
-                                                : new Node(row,column,top_,board_,top_[i],i,no_x,no_y,chance_,get_expandables());
+                    children[i] = top_[i] == 0 ? new Node(row,column,top_,board_,top_[i],i,no_x,no_y,get_expandables()-1,chance_) 
+                                                : new Node(row,column,top_,board_,top_[i],i,no_x,no_y,get_expandables(),chance_);
                 }
                 children[i]->set_parent(this);
                 board_[top_[i]-1][i] = 0; top_[i]+= step;
@@ -302,8 +189,8 @@ NodePosi Node::expand(){
 void Node::backup(int delta){
     NodePosi v = this;
     while(v != nullptr){
-        v->get_n() += 1;
-        v->get_r() += delta;
+        v->set_n(v->get_n()+1);
+        v->set_r(v->get_r()+delta);
         v->set_value();
         delta = -1*delta;
         v = v->get_parent();
@@ -317,7 +204,7 @@ void Node::backup(int delta){
  * @return NodePosi 
  */
 
-NodePosi Node::bestchild(const double c=C){ 
+NodePosi Node::bestchild(const double c){ 
     NodePosi b_child{nullptr};
     double res = -1e16; double dist = 0;
     for(int i=0; i< column ; i++){
@@ -342,4 +229,3 @@ NodePosi Node::bestchild(const double c=C){
     }
     return b_child;
 };
-#endif

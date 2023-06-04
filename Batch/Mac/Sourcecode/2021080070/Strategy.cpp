@@ -30,7 +30,10 @@ using namespace std;
 */
 extern "C" Point* getPoint(const int M, const int N, const int* top, const int* _board, 
 	const int lastX, const int lastY, const int noX, const int noY){
-	clock_t startTime = clock();
+	
+	auto start_time = std::chrono::high_resolution_clock::now();
+	double duration = 0.0;
+
 	/*
 		不要更改这段代码
 	*/
@@ -48,24 +51,61 @@ extern "C" Point* getPoint(const int M, const int N, const int* top, const int* 
 		该部分对参数使用没有限制，为了方便实现，你可以定义自己新的类、.h文件、.cpp文件
 	*/
 	// Monte Carlo Algorithm with UCB
-	NodePosi root = new Node(M,N,top,board,-1,-1,noX,noY,false,N);
-	while(duration < 2.50){// end_time - start_time < 2.80s
-		NodePosi v_l = root->tree_policy(); // select node 
-		int delta = v_l->rollout(); // simulate
-		v_l->backup(delta); // back propagate
-		auto end_time = std::chrono::high_resolution_clock::now();
-        duration = std::chrono::duration<double>(end_time - start_time).count();
+	NodePosi root = new Node(M,N,top,board,-1,-1,noX,noY,N,false);
+
+
+	bool can_finish = false;
+	// 检查是否存在必胜点 
+	for (int i=0; i< N; i++){
+		if(top[i] > 0 ){
+			board[top[i]-1][i] = 2;
+			if(machineWin(top[i]-1,i,M,N,board)){
+				can_finish = true;
+				board[top[i]-1][i] = 0;
+				x = top[i] -1;
+				y = i;
+				break;
+			}
+			board[top[i]-1][i] = 0;
+		}
+	}
+	if(!can_finish){
+	// 检查是否存在必输点 
+		for (int i=0; i< N; i++){
+			if(top[i] > 0 ){
+				board[top[i] -1][i] = 1;
+				if(userWin(top[i]-1,i,M,N,board)){
+					can_finish = true;
+					board[top[i]-1][i] = 0;
+					x = top[i] -1;
+					y = i;
+					break;
+				}
+				board[top[i]-1][i] = 0;
+			}
+		}
+
+		if(!can_finish){
+		UCT* tree = new UCT(M,N,top,board,noX,noY,true);
+		while(duration < 2.50){// end_time - start_time < 2.80s
+			NodePosi v_l = root->tree_policy(); // select node 
+			int delta = v_l->rollout(); // simulate
+			v_l->backup(delta); // back propagate
+			auto end_time = std::chrono::high_resolution_clock::now();
+			duration = std::chrono::duration<double>(end_time - start_time).count();
+		}
+		NodePosi best = root->bestchild(0); // before time is up , get the best child node from root
+		x = best->get_x(); y = best->get_y();
+		}
 	}
 
-	NodePosi best = root->bestchild(); // before time is up , get the best child node from root
-	x = best->get_x(); y = best->get_y();
+
 	/*
 		不要更改这段代码
 	*/
 	clearArray(M, N, board);
 	return new Point(x, y);
 }
-
 
 /*
 	getPoint函数返回的Point指针是在本dll模块中声明的，为避免产生堆错误，应在外部调用本dll中的

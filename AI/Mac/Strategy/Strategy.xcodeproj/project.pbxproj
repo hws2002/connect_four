@@ -21,6 +21,7 @@
 		75F348331AB186440067F028 /* Point.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point.h; sourceTree = "<group>"; };
 		75F348341AB186440067F028 /* Strategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Strategy.cpp; sourceTree = "<group>"; };
 		75F348351AB186440067F028 /* Strategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strategy.h; sourceTree = "<group>"; };
+		F306FDC12A2C4510005D32E3 /* UCT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UCT.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +38,7 @@
 		751BF4041AB094550075BFA1 = {
 			isa = PBXGroup;
 			children = (
+				F306FDC12A2C4510005D32E3 /* UCT.h */,
 				75F348321AB186440067F028 /* Judge.h */,
 				75F348331AB186440067F028 /* Point.h */,
 				75F348341AB186440067F028 /* Strategy.cpp */,
@@ -229,7 +231,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EXECUTABLE_PREFIX = lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "i386 x86_64";
@@ -241,7 +243,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EXECUTABLE_PREFIX = lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "i386 x86_64";
